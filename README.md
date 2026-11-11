@@ -25,8 +25,14 @@
 APK로 설치하려면 `apk/` 폴더의 release APK를 사용합니다.
 
 ```
-adb install -r apk/이진우_기름만줘도잘커요_release.apk
+adb install -r -g apk/이진우_기름만줘도잘커요_release.apk
 ```
+
+## APK 위치
+
+실행 가능한 서명된 release APK는 저장소의 `apk/` 폴더에 있습니다.
+
+- `apk/이진우_기름만줘도잘커요_release.apk`
 
 ## 테스트 환경·설정
 
