@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Pleos Vehicle SDK (쓰는 도메인만) -->
+    <uses-permission android:name="pleos.car.permission.CAR_DRIVE" />   <!-- 누적 주행거리 -->
+    <uses-permission android:name="pleos.car.permission.CAR_WINDOWS" /> <!-- 와이퍼, 창문 -->
+    <uses-permission android:name="pleos.car.permission.CAR_LIGHTS" />  <!-- 전조등 -->
+    <uses-permission android:name="pleos.car.permission.CAR_CLIMATE" /> <!-- 히터, 에어컨 -->
+    <uses-permission android:name="pleos.car.permission.CAR_SEATS" />   <!-- 동승자 착석, 안전벨트 -->
+    <uses-permission android:name="pleos.car.permission.CAR_SAFETY" />  <!-- 벨트 미착용 경고 -->
+    <uses-permission android:name="pleos.car.permission.CAR_DOORS" />   <!-- 뒷문 -->
+    <uses-permission android:name="pleos.car.permission.CAR_ENERGY" />  <!-- 배터리 -->
+
+    <!-- Android Automotive 표준 -->
+    <uses-permission android:name="android.car.permission.CAR_POWERTRAIN" /> <!-- 기어 -->
+    <uses-permission android:name="android.car.permission.CAR_SPEED" />      <!-- 차속 -->
+
+    <!-- 화면을 닫아도 주행 기록이 이어지게 하는 서비스 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.HyundaiGochi">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.HyundaiGochi"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="distractionOptimized"
+                android:value="true" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".RecorderService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="vehicle_trip_recording" />
+        </service>
+
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>
